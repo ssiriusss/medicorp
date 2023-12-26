@@ -1,0 +1,12 @@
+CREATE OR REPLACE FUNCTION date_trigger_fnc()
+  RETURNS trigger AS
+
+$$
+BEGIN
+update labs_result
+set dаte = current_date
+where result_id = new.result_id;
+RETURN NEW;
+END;
+$$
+  language 'plpgsql';

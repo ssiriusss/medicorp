@@ -1,0 +1,10 @@
+Триггеры
+
+
+Выставляет дату лабораторных результатов как сегодняшних
+
+CREATE TRIGGER date_trigger
+  AFTER INSERT
+  ON labs_result
+  FOR EACH ROW
+  EXECUTE Function date_trigger_fnc();
