@@ -1,0 +1,92 @@
+"Запросы"
+
+1.
+Выбор женского пола
+select * from patient
+where sex like 'Женский'
+2.
+количество людей по гендерам
+select sex, count(*) from patient
+group by sex
+3.
+только пациенты старше или того же года  (1.1.1980)
+select * from patient
+where birthday <= Cast('1-1-1980' as date)
+4.
+вывод из таблицы самого старшего пациента
+select * from patient
+order by birthday asc
+limit 1
+5.
+выбор пациента у которого номер телефона +79876543216
+select * from patient
+where phone_number like '+79876543216'
+6.
+создание представления (имя, фамилия, номер телефона, болезнь)
+create view patient_illnes as
+select name, surname, phone_number, health_status from patient, diagnosis
+where patient.patient_id = diagnosis.patient_id
+7.
+отбор архивный записей
+select patient_id, start_date, end_date from treatment
+where end_date < current_date
+8.
+вывод положительных результатов исследований
+select test,test_result from labs_result 
+where test_result = true
+9.
+вывод неаллергенных препаратов
+select medication_id as none_containdication_medication_id from medications
+except
+select medication_id from contraindication
+10.
+вывод пациентов и их диагнозов поступивших в феврале
+select * from diagnosis
+where cast(incoming_date as text) like '%-02-%'
+11.
+показывает сколько пациентов с одинаковой фамилией
+select surname, count(*) from patient
+group by surname
+12.
+вывод всей информации о Метформине
+select * from medications
+where medication_title like 'Metformin'
+13.
+вывод всех препаратов с индивидуальной дозировкой
+select * from medications
+where dose like '%individualized%'
+14.
+вывод тестов на Covid-19
+select * from labs_result
+where test like 'COVID-19'
+15.
+количество больных определенной болезнью
+select test, count(*) from labs_result
+where test_result = true
+group by test
+order by count desc
+16.
+все пациенты из Москвы
+select * from patient
+where address like 'Москва%'
+17.
+вывод больных имеющих аллергию
+select distinct name,surname from contraindication inner join patient on patient.patient_id = contraindication.patient_id
+18.
+вывод всех пациентов с депрессией
+select name, surname, health_status
+from diagnosis, patient
+where health_status = 'Depression'
+19.
+вывод всех пациентов принимающих Lisinopril
+select distinct name, surname, medication_title
+from medications, patient
+where medication_title = 'Lisinopril'
+20.
+пациенты у которых был положительный тест
+select test, patient_id
+from labs_result
+where test_result = 'true'
+
+
+
